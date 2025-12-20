@@ -84,18 +84,29 @@
 
 {{-- SALES TABLE SECTION --}}
 <div class="bg-white p-6 rounded-2xl shadow-lg">
+    
+    {{-- Header Tabel & Sort --}}
     <div class="flex justify-between items-center mb-6">
         <div>
             <h2 class="text-xl font-bold text-gray-800">Semua Sales</h2>
             <p class="text-sm text-green-600">Anggota aktif</p> 
         </div>
-        <div class="flex items-center text-sm text-gray-600">
-            <span class="mr-2">Short by:</span>
-            <select class="border border-gray-300 rounded-md py-1 px-3">
-                <option>Newest</option>
-                <option>Oldest</option>
-                <option>Highest Sales</option>
-            </select>
+        
+        {{-- DROPDOWN SORT BY (Menggunakan Gaya Baru) --}}
+        <div class="relative">
+            {{-- Tombol Trigger --}}
+            <button id="sortButton" class="w-56 bg-white border border-gray-300 rounded-lg px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <span class="text-xs text-gray-600">Sort by : <span id="sortLabel" class="font-bold text-gray-800">Newest</span></span>
+                {{-- Icon Chevron --}}
+                <svg id="sortIcon" class="w-3 h-3 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+
+            {{-- Menu Dropdown --}}
+            <div id="sortDropdown" class="hidden absolute right-0 mt-2 w-full bg-white rounded-xl shadow-xl border border-gray-100 z-20 overflow-hidden transform transition-all duration-200 origin-top-right">
+                <a href="#" onclick="selectSort('Newest')" class="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Newest</a>
+                <a href="#" onclick="selectSort('Oldest')" class="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Oldest</a>
+                <a href="#" onclick="selectSort('Highest Sales')" class="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">Highest Sales</a>
+            </div>
         </div>
     </div>
 
@@ -114,7 +125,7 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 
-                {{-- Data diambil dari gambar --}}
+                {{-- Data Dummy --}}
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Jane Cooper</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800">30 Unit</td>
@@ -205,5 +216,47 @@
         Showing data 1 to 8 of 256k entries
     </div>
 </div>
+
+{{-- SCRIPT JAVASCRIPT UNTUK DROPDOWN SORT --}}
+<script>
+    function selectSort(value) {
+        document.getElementById('sortLabel').innerText = value;
+        toggleSortDropdown();
+        // Logika sorting bisa ditambahkan di sini
+    }
+
+    function toggleSortDropdown() {
+        const dropdown = document.getElementById('sortDropdown');
+        const icon = document.getElementById('sortIcon');
+        
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+            icon.classList.add('rotate-180');
+        } else {
+            dropdown.classList.add('hidden');
+            icon.classList.remove('rotate-180');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.getElementById('sortButton');
+        const dropdown = document.getElementById('sortDropdown');
+        const icon = document.getElementById('sortIcon');
+
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleSortDropdown();
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                if (!dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
+                    icon.classList.remove('rotate-180');
+                }
+            }
+        });
+    });
+</script>
 
 @endsection
