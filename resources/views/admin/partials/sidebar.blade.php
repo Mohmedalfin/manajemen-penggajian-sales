@@ -1,14 +1,17 @@
 {{-- resources/views/admin/partials/sidebar.blade.php --}}
 @php
-    // Definisikan kelas aktif dan default untuk kemudahan
-    $activeClass = 'bg-blue-500 text-white font-semibold shadow-md';
-    $defaultClass = 'text-gray-600 hover:bg-gray-100 transition duration-150';
+    // Definisikan kelas aktif dan default
+    // MENU AKTIF: Background Biru + Border Tipis Biru
+    $activeClass = 'bg-blue-500 text-white font-semibold shadow-md border border-blue-500';
+
+    // MENU TIDAK AKTIF: Teks Biru + Frame (Border) Tipis Biru
+    $defaultClass = 'text-blue-500 border border-blue-500 hover:bg-blue-50 transition duration-150';
     
-    // Kelas yang digunakan untuk item menu (Base class)
+    // Kelas dasar
     $baseClass = 'flex items-center space-x-3 p-3 rounded-full';
 @endphp
 
-<aside class="w-72 bg-white shadow-xl flex flex-col justify-between p-6 h-full">
+<aside class="w-72 bg-white shadow-xl flex flex-col justify-between p-6 h-full min-h-screen">
     <div>
         {{-- Logo Clarity --}}
         <div class="flex items-center space-x-2 mb-10">
@@ -68,19 +71,6 @@
                 <span>Laporan Gaji</span>
             </a>
             
-            <div class="h-8"></div>
-            
-            {{-- Edit Profil --}}
-            <a href="{{ route('admin.profil') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('admin.profil') ? $activeClass : $defaultClass }}">
-                {{-- ICON: Edit Profil --}}
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                    <path d="M2 21a8 8 0 0 1 10.821-7.487"/>
-                    <path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>
-                    <circle cx="10" cy="8" r="5"/>
-                </svg>
-                <span>Edit Profil</span>
-            </a>
         </nav>
     </div>
     
@@ -91,7 +81,7 @@
         <button type="submit" 
                 class="w-full flex items-center justify-center space-x-3 p-2 
                        text-red-500 font-semibold rounded-full transition duration-150 
-                       border-2 border-blue-500 hover:bg-blue-50"> 
+                       border border-blue-500 hover:bg-blue-50"> 
             
             {{-- ICON: Log Out --}}
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
