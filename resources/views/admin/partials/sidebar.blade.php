@@ -34,8 +34,8 @@
             </a>
             
             {{-- Data Sales --}}
-            <a href="{{ route('admin.sales.index') }}" 
-                class="{{ $baseClass }} {{ Request::routeIs('admin.sales.index') ? $activeClass : $defaultClass }}">
+            <a href="{{ route('admin.data_sales') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.data_sales') ? $activeClass : $defaultClass }}">
                 {{-- ICON: Data Sales --}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <circle cx="12" cy="8" r="5"/>
@@ -45,8 +45,8 @@
             </a>
             
             {{-- Data Barang --}}
-            <a href="{{ route('admin.barang.index') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('admin.barang.index') ? $activeClass : $defaultClass }}">
+            <a href="{{ route('admin.data_barang') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.data_barang') ? $activeClass : $defaultClass }}">
                 {{-- ICON: Data Barang --}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <circle cx="8" cy="21" r="1"/>
@@ -57,8 +57,8 @@
             </a>
             
             {{-- Laporan Gaji --}}
-            <a href="{{ route('admin.laporanGaji.index') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('admin.laporanGaji.index') ? $activeClass : $defaultClass }}">
+            <a href="{{ route('admin.laporan_gaji') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.laporan_gaji') ? $activeClass : $defaultClass }}">
                 {{-- ICON: Laporan Gaji --}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
@@ -69,6 +69,18 @@
             </a>
             
             <div class="h-8"></div>
+            
+            {{-- Edit Profil --}}
+            <a href="{{ route('admin.profil') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.profil') ? $activeClass : $defaultClass }}">
+                {{-- ICON: Edit Profil --}}
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                    <path d="M2 21a8 8 0 0 1 10.821-7.487"/>
+                    <path d="M21.378 16.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>
+                    <circle cx="10" cy="8" r="5"/>
+                </svg>
+                <span>Edit Profil</span>
+            </a>
         </nav>
     </div>
     

@@ -30,8 +30,8 @@
                 <form action="{{ route('login') }}" method="POST">
                     @csrf 
                     
-                    <label for="username" class="block text-left text-base font-medium text-gray-700 mb-2">Username</label>
-                    <input type="username" id="username" name="username" placeholder="Masukkan username Anda" 
+                    <label for="email" class="block text-left text-base font-medium text-gray-700 mb-2">Alamat Email</label>
+                    <input type="email" id="email" name="email" placeholder="Masukkan alamat email Anda" 
                            class="w-full p-4 mb-6 border-none rounded-full shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
 
                     <label for="password" class="block text-left text-base font-medium text-gray-700 mb-2">Kata Sandi</label>
