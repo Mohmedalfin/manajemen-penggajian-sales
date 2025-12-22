@@ -14,7 +14,7 @@
             </div>
             <span class="text-2xl font-bold text-gray-800">Clarity</span>
         </div>
-        
+                
         {{-- TOMBOL KEMBALI KE DASHBOARD ADMIN --}}
         <div class="mb-6">
             <a href="{{ route('admin.dashboard') }}" 
