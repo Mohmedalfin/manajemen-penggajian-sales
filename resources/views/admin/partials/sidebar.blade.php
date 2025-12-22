@@ -1,14 +1,17 @@
 {{-- resources/views/admin/partials/sidebar.blade.php --}}
 @php
-    // Definisikan kelas aktif dan default untuk kemudahan
-    $activeClass = 'bg-blue-500 text-white font-semibold shadow-md';
-    $defaultClass = 'text-gray-600 hover:bg-gray-100 transition duration-150';
+    // Definisikan kelas aktif dan default
+    // MENU AKTIF: Background Biru + Border Tipis Biru
+    $activeClass = 'bg-blue-500 text-white font-semibold shadow-md border border-blue-500';
+
+    // MENU TIDAK AKTIF: Teks Biru + Frame (Border) Tipis Biru
+    $defaultClass = 'text-blue-500 border border-blue-500 hover:bg-blue-50 transition duration-150';
     
-    // Kelas yang digunakan untuk item menu (Base class)
+    // Kelas dasar
     $baseClass = 'flex items-center space-x-3 p-3 rounded-full';
 @endphp
 
-<aside class="w-72 bg-white shadow-xl flex flex-col justify-between p-6 h-full">
+<aside class="w-72 bg-white shadow-xl flex flex-col justify-between p-6 h-full min-h-screen">
     <div>
         {{-- Logo Clarity --}}
         <div class="flex items-center space-x-2 mb-10">
@@ -34,8 +37,8 @@
             </a>
             
             {{-- Data Sales --}}
-            <a href="{{ route('admin.sales.index') }}" 
-                class="{{ $baseClass }} {{ Request::routeIs('admin.sales.index') ? $activeClass : $defaultClass }}">
+            <a href="{{ route('admin.data_sales') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.data_sales') ? $activeClass : $defaultClass }}">
                 {{-- ICON: Data Sales --}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <circle cx="12" cy="8" r="5"/>
@@ -45,8 +48,8 @@
             </a>
             
             {{-- Data Barang --}}
-            <a href="{{ route('admin.barang.index') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('admin.barang.index') ? $activeClass : $defaultClass }}">
+            <a href="{{ route('admin.data_barang') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.data_barang') ? $activeClass : $defaultClass }}">
                 {{-- ICON: Data Barang --}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <circle cx="8" cy="21" r="1"/>
@@ -57,8 +60,8 @@
             </a>
             
             {{-- Laporan Gaji --}}
-            <a href="{{ route('admin.laporanGaji.index') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('admin.laporanGaji.index') ? $activeClass : $defaultClass }}">
+            <a href="{{ route('admin.laporan_gaji') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.laporan_gaji') ? $activeClass : $defaultClass }}">
                 {{-- ICON: Laporan Gaji --}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
@@ -67,10 +70,27 @@
                 </svg>
                 <span>Laporan Gaji</span>
             </a>
-            <div class="h-8"></div> 
+            
         </nav>
     </div>
     
     {{-- Tombol Keluar --}}
-
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        {{-- Tombol Keluar --}}
+        <button type="submit" 
+                class="w-full flex items-center justify-center space-x-3 p-2 
+                       text-red-500 font-semibold rounded-full transition duration-150 
+                       border border-blue-500 hover:bg-blue-50"> 
+            
+            {{-- ICON: Log Out --}}
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                <path d="m16 17 5-5-5-5"/>
+                <path d="M21 12H9"/>
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            </svg>
+            
+            <span>Keluar</span>
+        </button>
+    </form>
 </aside>
