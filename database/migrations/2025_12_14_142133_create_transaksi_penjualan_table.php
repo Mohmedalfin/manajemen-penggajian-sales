@@ -12,14 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaksi_penjualan', function (Blueprint $table) {
-            $table->id('transaksi_id'); // PK
+            $table->id('transaksi_id');
 
             $table->date('tanggal_transaksi');
 
-            // FK ke sales.sales_id
-            $table->unsignedBigInteger('sales_id');
+            // FK ke sales.id
+            $table->foreignId('sales_id')
+                ->constrained('sales')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
 
-            // FK ke produk.produk_id (string)
+            // FK ke produk.produk_id
             $table->string('produk_id', 10);
 
             $table->integer('jumlah_unit')->default(0);
@@ -29,23 +32,17 @@ return new class extends Migration
 
             $table->timestamps();
 
-            // Index untuk query laporan per periode/sales
             $table->index(['tanggal_transaksi', 'sales_id']);
             $table->index('produk_id');
 
-            $table->foreign('sales_id')
-                  ->references('sales_id')
-                  ->on('sales')
-                  ->cascadeOnUpdate()
-                  ->restrictOnDelete();
-
             $table->foreign('produk_id')
-                  ->references('produk_id')
-                  ->on('produk')
-                  ->cascadeOnUpdate()
-                  ->restrictOnDelete();
+                ->references('produk_id')
+                ->on('produk')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
         });
     }
+
 
     /**
      * Reverse the migrations.

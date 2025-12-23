@@ -19,11 +19,10 @@ class UserSeed extends Seeder
 
         $salesCollection = Sales::limit(10)->get();
 
-        // Buat User untuk setiap Sales (memastikan relasi 1:1 terpenuhi)
         foreach ($salesCollection as $sales) {
             User::factory()->forSales($sales)->create();
         }
 
-        User::factory(5)->admin()->create();
+        User::factory(2)->admin()->create();
     }
 }

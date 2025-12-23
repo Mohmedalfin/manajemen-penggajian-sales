@@ -9,9 +9,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('laporan_gaji', function (Blueprint $table) {
-            $table->id('laporan_gaji_id'); 
+            $table->id('laporan_gaji_id');
 
-            $table->unsignedBigInteger('sales_id');
+            // FK ke sales.id
+            $table->foreignId('sales_id')
+                ->constrained('sales')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
 
             $table->string('periode_bulan', 7);
 
@@ -21,16 +25,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            // FK + index
-            $table->foreign('sales_id')
-                  ->references('sales_id')
-                  ->on('sales')
-                  ->cascadeOnUpdate()
-                  ->restrictOnDelete();
-
             $table->index(['sales_id', 'periode_bulan']);
-
-            // 1 sales hanya boleh 1 laporan per periode
             $table->unique(['sales_id', 'periode_bulan'], 'uq_laporan_gaji_sales_periode');
         });
     }

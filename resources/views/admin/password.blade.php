@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="bg-white rounded-3xl shadow-xl p-8 max-w-4xl mx-auto mt-10">
-    <form action="{{ route('admin.password.update') }}" method="POST"> 
+    <form  method="POST">
         @csrf
         @method('PUT')
         

@@ -21,7 +21,7 @@
                 </svg>
             </div>
         </div>
-        <div class="text-3xl font-bold text-gray-800">20 <span class="text-xl font-medium text-gray-500">Sales</span></div>
+        <div class="text-3xl font-bold text-gray-800">{{ $totalSales }} <span class="text-xl font-medium text-gray-500">Sales</span></div>
     </div>
 
     {{-- Card 2: Jumlah Unit --}}

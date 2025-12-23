@@ -30,8 +30,9 @@
         <nav class="space-y-2">
             
             {{-- 1. Edit Profil --}}
-            <a href="{{ route('admin.profil') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('admin.profil') ? $activeClass : $defaultClass }}">
+            {{-- Route Benar: admin.profil.index --}}
+            <a href="{{ route('admin.profil.index') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.profil.index') ? $activeClass : $defaultClass }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
@@ -39,9 +40,10 @@
             </a>
             
             {{-- 2. Kata Sandi --}}
-            <a href="{{ route('admin.password') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('admin.password') ? $activeClass : $defaultClass }}">
-                {{-- Icon Key Round --}}
+            {{-- Route Benar: admin.profil.password.index --}}
+            {{-- Perbaikan: Menambahkan 'profil' di tengah route --}}
+            <a href="{{ route('admin.profil.password.index') }}" 
+               class="{{ $baseClass }} {{ Request::routeIs('admin.profil.password.*') ? $activeClass : $defaultClass }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/>
                     <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>
@@ -51,20 +53,4 @@
             
         </nav>
     </div>
-    
-    {{-- Tombol Keluar --}}
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit" 
-                class="w-full flex items-center justify-center space-x-3 p-2 
-                       text-red-500 font-semibold rounded-full transition duration-150 
-                       border border-blue-500 hover:bg-blue-50"> 
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                <path d="m16 17 5-5-5-5"/>
-                <path d="M21 12H9"/>
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            </svg>
-            <span>Keluar</span>
-        </button>
-    </form>
 </aside>

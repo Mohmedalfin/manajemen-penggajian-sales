@@ -12,7 +12,8 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'users';
-    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'username',
@@ -48,6 +49,11 @@ class User extends Authenticatable
     public function sales()
     {
         return $this->belongsTo(Sales::class, 'sales_id', 'sales_id');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 
     // Helper Method

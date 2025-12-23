@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('produk', function (Blueprint $table) {
-            $table->string('produk_id', 10)->primary(); // contoh: PRD-001
+            $table->string('produk_id', 10)->primary()->unique(); 
 
             $table->string('nama_produk', 100);
             $table->decimal('harga_jual_unit', 10, 2)->default(0);

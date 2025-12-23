@@ -9,11 +9,13 @@ class Sales extends Model
 {
     use HasFactory;
 
-    protected $table = 'sales';
     protected $primaryKey = 'sales_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'nama_lengkap',
+        'kontak',
         'jabatan',
         'gaji_pokok',
         'target_penjualan_bln',

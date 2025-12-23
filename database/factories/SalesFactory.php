@@ -49,6 +49,7 @@ class SalesFactory extends Factory
         return [
             // Menggunakan bahasa Indonesia yang terlihat realistis
             'nama_lengkap' => $this->faker->firstName() . ' ' . $this->faker->lastName(), 
+            'kontak' => $this->faker->numerify('08##########'),
             'jabatan' => $jabatan, 
             'gaji_pokok' => $gajiPokok,
             'target_penjualan_bln' => $targetPenjualan,

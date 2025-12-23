@@ -58,10 +58,12 @@ class UserFactory extends Factory
      */
     public function forSales(Sales $sales = null): Factory
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn () => [
             'username' => 'sales_' . $this->faker->unique()->randomNumber(4),
             'role' => 'sales',
-            'sales_id' => $sales ? $sales->sales_id : Sales::factory()->create()->sales_id,
+            'sales_id' => $sales
+                ? $sales->id
+                : Sales::factory()->create()->id,
         ]);
     }
 }
