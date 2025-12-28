@@ -21,12 +21,13 @@ class TransaksiController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('kode_transaksi', 'like', "%{$search}%")
-                  ->orWhereHas('sales', fn ($q) =>
-                      $q->where('nama_lengkap', 'like', "%{$search}%")
-                  )
-                  ->orWhereHas('barang', fn ($q) =>
-                      $q->where('nama_produk', 'like', "%{$search}%")
-                  );
+                ->orWhereHas('sales', fn ($subQ) =>
+                    $subQ->where('nama_lengkap', 'like', "%{$search}%")
+                )
+                ->orWhereHas('barang', fn ($subQ) =>
+                    $subQ->where('nama_produk', 'like', "%{$search}%")
+                )
+                ->orWhere('status_verifikasi', 'like', "%{$search}%"); 
             });
         }
 

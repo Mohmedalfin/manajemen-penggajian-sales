@@ -37,9 +37,10 @@
                class="{{ $baseClass }} {{ Request::routeIs('admin.transaksi') ? $activeClass : $defaultClass }}">
                 {{-- ICON: Dashboard --}}
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                    <path d="M5 21v-6"/>
-                    <path d="M12 21V3"/>
-                    <path d="M19 21V9"/>
+                    <path d="M20 17h-9"/>
+                    <path d="M14 13l-3 4 3 4"/>
+                    <path d="M4 7h9"/>
+                    <path d="M10 11l3-4-3-4"/>
                 </svg>
                 <span>Data Transaksi</span>
             </a>

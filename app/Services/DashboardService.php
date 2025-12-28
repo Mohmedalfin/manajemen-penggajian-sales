@@ -15,11 +15,8 @@ class DashboardService
 
         return [
             'totalSales' => Sales::count(),
-
             'totalUnitBulanIni' => (clone $queryBulanIni)->sum('jumlah_unit'),
-
             'totalPenjualan' => (clone $queryBulanIni)->sum('harga_total'),
-
             'totalTransaksi' => (clone $queryBulanIni)->count()        ];
     }
 }
