@@ -20,7 +20,7 @@ Route::middleware('auth')->get('/', function () {
 
     return match ($user->role) {
         'admin' => redirect()->route('admin.dashboard'),
-        'sales' => redirect()->route('sales.dashboard'), // jika ada
+        'sales' => redirect()->route('sales.dashboard'), 
         default => abort(403),
     };
 });
@@ -59,7 +59,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Laporan
     Route::get('/laporan-gaji/export', [LaporanGajiController::class, 'exportExcel'])->name('laporan-gaji.export');
-
     Route::resource('laporan-gaji', LaporanGajiController::class);
 
     // Profile (singleton)

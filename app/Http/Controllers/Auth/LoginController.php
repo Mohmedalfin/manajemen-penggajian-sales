@@ -17,12 +17,13 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // Validasi input
+        // 1. Validasi input
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
+        // 2. Coba Login
         if (Auth::attempt([
             'username' => $request->username,
             'password' => $request->password,
@@ -31,18 +32,26 @@ class LoginController extends Controller
             if ($user->role == 'admin') {
                 return redirect()->route('admin.dashboard');
             } else {
-                return redirect()->route('user.dashboard');
+                return redirect()->route('sales.dashboard');
             }
         }
 
+        // --- BAGIAN INI YANG DIUBAH ---
+        // Hapus (atau comment) bagian ValidationException
+        /*
         throw ValidationException::withMessages([
             'username' => ['The provided credentials are incorrect.'],
         ]);
+        */
+
+        // Ganti dengan ini agar bisa ditangkap sebagai Alert
+        return back()->with('loginError', 'Login Gagal! Username atau Password salah.');
     }
+
+    
 
     public function showLoginForm()
     {
-        // Jika pengguna sudah login, redirect ke dashboard yang sesuai
         if (Auth::check()) {
             $userRole = Auth::user()->role;
             if ($userRole == 'admin') {
@@ -51,18 +60,13 @@ class LoginController extends Controller
                 return redirect()->route('sales.dashboard');
             }
         }
-
         return view('auth.login');
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
-
-        // Hapus session lama biar benar-benar bersih
         $request->session()->invalidate();
-
-        // Regenerate CSRF token (best practice)
         $request->session()->regenerateToken();
 
         return redirect()->route('login');

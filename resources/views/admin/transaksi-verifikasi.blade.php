@@ -81,6 +81,7 @@
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produk</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pembeli</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Terjual</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal/Waktu Transaksi</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Penjualan</th>
@@ -101,12 +102,16 @@
                         {{ $item->barang->nama_produk ?? '-' }}
                     </td>
 
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ $item->nama_pelanggan ?? '-' }}
+                    </td>
+
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800">
                         {{ $item->jumlah_unit }} Unit
                     </td>
 
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800">
-                        {{ $item->tanggal_transaksi->format('H:i, d M Y ') }}
+                        {{ $item->tanggal_transaksi->format('d M Y ') }}
                     </td>
 
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 font-semibold">
