@@ -69,11 +69,11 @@
                         </span>
                     </div>
                     
-                    <div class="flex justify-end">
+                    {{-- <div class="flex justify-end">
                         <a href="#" class="block text-base text-blue-600 font-medium hover:underline mb-10">
                             Lupa Password?
                         </a>
-                    </div>
+                    </div> --}}
 
                     <button type="submit" class="w-full py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition duration-300 shadow-lg text-base transform active:scale-95">
                         Masuk
@@ -135,12 +135,12 @@
                     </div>
 
 
-                    <div class="flex justify-end">
+                    {{-- <div class="flex justify-end">
                         <a href="#" class="block text-base text-blue-600 font-medium hover:underline mb-10">
                             Lupa Password?
                         </a>
                     </div>
-                    
+                     --}}
                     <button type="submit" class="w-full py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition duration-300 shadow-lg text-lg">
                         Masuk
                     </button>

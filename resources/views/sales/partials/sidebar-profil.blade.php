@@ -1,11 +1,6 @@
-{{-- resources/views/sales/partials/sidebar-profil.blade.php --}}
 @php
-    // MENU AKTIF
     $activeClass = 'bg-blue-500 text-white font-semibold shadow-md border border-blue-500';
-
-    // MENU TIDAK AKTIF
     $defaultClass = 'text-blue-500 border border-blue-500 hover:bg-blue-50 transition duration-150';
-    
     $baseClass = 'flex items-center space-x-3 p-3 rounded-full';
 @endphp
 
@@ -16,9 +11,7 @@
     ">
     
     <div>
-        {{-- HEADER SIDEBAR: Logo & Tombol Close --}}
         <div class="flex items-center justify-between mb-8">
-            {{-- Logo Clarity --}}
             <div class="flex items-center space-x-2">
                 <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
                     <span class="text-white text-lg font-bold">C</span>
@@ -26,7 +19,6 @@
                 <span class="text-2xl font-bold text-gray-800">Clarity</span>
             </div>
 
-            {{-- TOMBOL CLOSE (Hanya muncul di Mobile) --}}
             <button id="closeSidebarBtn" class="md:hidden text-gray-500 hover:text-red-500 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -34,7 +26,6 @@
             </button>
         </div>
         
-        {{-- TOMBOL KEMBALI KE DASHBOARD --}}
         <div class="mb-6">
             <a href="{{ route('sales.dashboard') }}" 
                class="flex items-center space-x-3 p-3 rounded-full text-gray-700 font-bold hover:bg-gray-300 transition duration-150 shadow-sm">
@@ -45,7 +36,6 @@
             </a>
         </div>
 
-        {{-- Menu Navigasi Khusus Profil --}}
         <nav class="space-y-2">
             
             {{-- 1. Edit Profil --}}
@@ -59,17 +49,15 @@
             
             {{-- 2. Kata Sandi --}}
             <a href="{{ route('sales.password') }}" 
-               class="{{ $baseClass }} {{ Request::routeIs('sales.password') ? $activeClass : $defaultClass }}">
+            class="{{ $baseClass }} {{ Request::routeIs('sales.password') ? $activeClass : $defaultClass }}">
                 
-                {{-- ICON: Key Round --}}
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/>
                     <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>
                 </svg>
 
                 <span>Kata Sandi</span>
-            </a>
-            
+            </a>  
         </nav>
     </div>
     

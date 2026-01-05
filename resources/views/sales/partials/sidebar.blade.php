@@ -12,9 +12,7 @@
     ">
     
     <div>
-        {{-- Header Sidebar + Tombol Close Mobile --}}
         <div class="flex items-center justify-between mb-10">
-            {{-- Logo --}}
             <div class="flex items-center space-x-2">
                 <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
                     <span class="text-white text-lg font-bold">C</span>
@@ -22,7 +20,6 @@
                 <span class="text-2xl font-bold text-gray-800">Clarity</span>
             </div>
 
-            {{-- TOMBOL CLOSE (Hanya muncul di Mobile) --}}
             <button id="closeSidebarBtn" class="md:hidden text-gray-500 hover:text-red-500 focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -45,14 +42,13 @@
             </a>
             
             {{-- 2. Input Penjualan Harian --}}
-            <a href="{{ Route::has('sales.input') ? route('sales.input') : '#' }}" 
-               class="{{ $baseClass }} {{ (request()->routeIs('sales.input')) ? $activeClass : $defaultClass }}">
+            <a href="{{ route('sales.transaction.create') }}"
+            class="{{ $baseClass }} {{ (request()->routeIs('sales.transaction.create')) ? $activeClass : $defaultClass }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                     <path d="M12 5v14M5 12h14"/>
                 </svg>
                 <span>Input Penjualan Harian</span>
-            </a>
-            
+            </a> 
         </nav>
     </div>
 </aside>

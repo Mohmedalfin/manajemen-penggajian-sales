@@ -20,7 +20,6 @@
         <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl"></div>
     </div>
 
-    {{-- 2. FORM INPUT TRANSAKSI (Updated Padding p-4 md:p-8) --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-8">
         
         <div class="mb-8">
@@ -28,11 +27,26 @@
             <p class="text-gray-400 text-sm mt-1">Isi detail transaksi penjualan dengan lengkap</p>
         </div>
 
-        {{-- Form Start --}}
-        <form action="{{-- route('sales.store') --}}" method="POST" class="space-y-6" enctype="multipart/form-data">
+        @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                <strong class="font-bold">Gagal Menyimpan!</strong>
+                <ul class="mt-1 list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <form action="{{ route('sales.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
             @csrf
             
-            {{-- A. INPUT TANGGAL --}}
             <div class="border-b border-gray-50 pb-6">
                 <label class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-blue-500">
@@ -107,47 +121,34 @@
                         </div>
 
                         <ul class="dropdown-options absolute left-0 z-50 w-full mt-2 bg-white rounded-xl border border-gray-100 shadow-xl hidden max-h-60 overflow-y-auto custom-scrollbar">
-                            @php
-                                $dummyProducts = [
-                                    ['id' => 1, 'name' => 'Kopi Arabika Gayo 100gr', 'price' => 45000],
-                                    ['id' => 2, 'name' => 'Kopi Robusta Lampung 100gr', 'price' => 35000],
-                                    ['id' => 3, 'name' => 'Gula Aren Cair 1 Liter', 'price' => 25000],
-                                    ['id' => 4, 'name' => 'Susu UHT Full Cream 1L', 'price' => 18000],
-                                    ['id' => 5, 'name' => 'Syrup Vanilla Premium', 'price' => 85000],
-                                    ['id' => 6, 'name' => 'Syrup Hazelnut Premium', 'price' => 85000],
-                                    ['id' => 7, 'name' => 'Powder Coklat Premium', 'price' => 65000],
-                                    ['id' => 8, 'name' => 'Cup Plastik 16oz (50pcs)', 'price' => 22000],
-                                    ['id' => 9, 'name' => 'Sedotan Steril Hitam', 'price' => 15000],
-                                    ['id' => 10, 'name' => 'Paper Bag Small', 'price' => 1200],
-                                    ['id' => 11, 'name' => 'Tisu Makan (Pack)', 'price' => 8000],
-                                    ['id' => 12, 'name' => 'Lychee Syrup Import', 'price' => 95000],
-                                ];
-                            @endphp
-
-                            @if(isset($products) && count($products) > 0)
+                            
+                            @if(isset($products) && $products->count() > 0)
                                 @foreach($products as $product)
                                     <li class="px-4 py-3 hover:bg-blue-50 cursor-pointer text-gray-700 border-b border-gray-50 last:border-0 flex justify-between items-center group transition" 
                                         data-value="{{ $product->id }}"
-                                        data-price="{{ $product->harga_jual ?? 0 }}">
-                                        <span class="group-hover:text-blue-600 font-medium">{{ $product->nama_barang }}</span>
-                                        <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-md group-hover:bg-blue-100 group-hover:text-blue-600">
-                                            Stok: {{ $product->stok ?? 0 }}
-                                        </span>
+                                        data-price="{{ $product->harga_jual_unit }}"> 
+                                        
+                                        {{-- Nama Produk --}}
+                                        <span class="group-hover:text-blue-600 font-medium">{{ $product->nama_produk }}</span>
+                                        
+                                        <div class="flex flex-col items-end">
+                                            {{-- Harga Format Rupiah --}}
+                                            <span class="text-xs font-bold text-green-600">
+                                                Rp {{ number_format($product->harga_jual_unit, 0, ',', '.') }}
+                                            </span>
+                                            {{-- Stok --}}
+                                            <span class="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-md mt-1 group-hover:bg-blue-100 group-hover:text-blue-600">
+                                                Stok: {{ $product->stok }}
+                                            </span>
+                                        </div>
                                     </li>
                                 @endforeach
                             @else
-                                @foreach($dummyProducts as $dummy)
-                                    <li class="px-4 py-3 hover:bg-blue-50 cursor-pointer text-gray-700 border-b border-gray-50 last:border-0 flex justify-between items-center group transition" 
-                                        data-value="{{ $dummy['id'] }}"
-                                        data-price="{{ $dummy['price'] }}">
-                                        <span class="group-hover:text-blue-600 font-medium">{{ $dummy['name'] }}</span>
-                                        <span class="text-xs font-bold text-green-600">
-                                            Rp {{ number_format($dummy['price'], 0, ',', '.') }}
-                                        </span>
-                                    </li>
-                                @endforeach
+                                <li class="px-4 py-3 text-gray-500 text-center text-sm">Tidak ada produk tersedia</li>
                             @endif
                         </ul>
+
+                        
                         <input type="hidden" name="product_id" class="dropdown-input">
                     </div>
 
@@ -233,7 +234,6 @@
         </form>
     </div>
 
-    {{-- CSS CUSTOM SCROLLBAR --}}
     <style>
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
@@ -245,6 +245,7 @@
     <script>
         // --- 1. Fungsi Format Rupiah ---
         function formatRupiah(angka) {
+            // Pastikan angka dibersihkan dari karakter aneh dulu sebelum diformat
             let number_string = angka.toString().replace(/[^,\d]/g, '').toString(),
                 split = number_string.split(','),
                 sisa = split[0].length % 3,
@@ -309,7 +310,14 @@
                 option.addEventListener('click', () => {
                     const text = option.querySelector('span:first-child').textContent;
                     const value = option.getAttribute('data-value');
-                    const price = option.getAttribute('data-price'); 
+                    let price = option.getAttribute('data-price'); 
+
+                    // --- PERBAIKAN PENTING DISINI ---
+                    // Membulatkan angka desimal (.00) agar tidak dianggap angka biasa
+                    // Contoh: "7000000.00" menjadi 7000000 (Integer)
+                    if (price) {
+                        price = Math.floor(parseFloat(price)); 
+                    }
 
                     // Update UI Label
                     selectedLabel.textContent = text;
@@ -353,5 +361,6 @@
             }
         });
     </script>
+    
 
 @endsection

@@ -12,7 +12,7 @@ class TransaksiService
             ->whereYear('tanggal_transaksi', $tahun);
 
         return [
-            'totalPending'  => (clone $queryBulanIni)->where('status_verifikasi', 'peding')->count(),
+            'totalPending'  => (clone $queryBulanIni)->where('status_verifikasi', 'pending')->count(),
             'totalApproved' => (clone $queryBulanIni)->where('status_verifikasi', 'approved')->count(),
             'totalRejected' => (clone $queryBulanIni)->where('status_verifikasi', 'rejected')->count(),
         ];

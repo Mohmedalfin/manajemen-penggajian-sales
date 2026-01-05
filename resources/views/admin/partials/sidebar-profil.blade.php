@@ -15,7 +15,6 @@
             <span class="text-2xl font-bold text-gray-800">Clarity</span>
         </div>
         
-        {{-- TOMBOL KEMBALI KE DASHBOARD ADMIN --}}
         <div class="mb-6">
             <a href="{{ route('admin.dashboard') }}" 
                class="flex items-center space-x-3 p-3 rounded-full text-gray-700 font-bold hover:bg-gray-300 transition duration-150 shadow-sm">
@@ -28,9 +27,6 @@
 
         {{-- Menu Navigasi Profil Admin --}}
         <nav class="space-y-2">
-            {{-- 2. Kata Sandi --}}
-            {{-- Route Benar: admin.profil.password.index --}}
-            {{-- Perbaikan: Menambahkan 'profil' di tengah route --}}
             <a href="{{ route('admin.profile.password.index') }}" 
                class="{{ $baseClass }} {{ Request::routeIs('admin.profile.password.index') ? $activeClass : $defaultClass }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

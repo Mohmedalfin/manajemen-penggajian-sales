@@ -63,7 +63,7 @@
                         
                         <div class="px-4 pb-3 border-b border-gray-200">
                             @php
-                                $userName = 'Admin Clara Sales'; 
+                                $userName = 'Admin'; 
                             @endphp
                             <p class="text-sm font-semibold text-gray-800 truncate">{{ $userName }}</p>
                         </div>

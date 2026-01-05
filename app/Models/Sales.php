@@ -23,6 +23,11 @@ class Sales extends Model
         'gaji_pokok',
         'target_penjualan_bln',
         'status_aktif',
+        'nama_lengkap',
+        'no_telepon',
+        'alamat',
+        'tanggal_lahir',
+        'foto',
     ];
 
     protected $casts = [

@@ -18,6 +18,8 @@ class TransaksiPenjualan extends Model
         'tanggal_transaksi',
         'sales_id',
         'produk_id',
+        'nama_pelanggan',    
+        'alamat_pelanggan',
         'status_verifikasi',
         'bukti_transaksi',
         'verified_by',

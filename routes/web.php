@@ -7,19 +7,10 @@ use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\Admin\SalesController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\LaporanGajiController;
-use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Sales\ProfileController;
 use App\Http\Controllers\Sales\DashboardSalesController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\Sales\InputTransaksiController;
+use App\Http\Controllers\Sales\PasswordController;
 
 // --- RUTE UNTUK TAMU (BELUM LOGIN) ---
 Route::middleware('guest')->group(function () {
@@ -44,9 +35,6 @@ Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout');
 
 
-// ==========================================
-// RUTE KHUSUS ADMIN
-// ==========================================
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard Admin
@@ -89,35 +77,18 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 
-// ==========================================
-// RUTE KHUSUS SALES
-// ==========================================
 Route::middleware(['auth'])->prefix('sales')->name('sales.')->group(function () {
-
     // 1. Dashboard Sales
     Route::get('/dashboard', [DashboardSalesController::class, 'index'])->name('dashboard');
 
     // 2. Profil Sales
-    Route::get('/profil', function () {
-        return view('sales.profil');
-    })->name('profil');
-    
-    // Rute Update Profil (Opsional)
+    Route::get('/profil', [ProfileController::class, 'edit'])->name('profil');
     Route::put('/profil', [ProfileController::class, 'update'])->name('profil.update');
 
-    // 3. Input Data Sales
-    Route::get('/input', function () {
-        return view('sales.input');
-    })->name('input');
+    // 3. Transaksi Input
+    Route::get('/transaksi/create', [InputTransaksiController::class, 'create'])->name('transaction.create');
+    Route::post('/transaksi/store', [InputTransaksiController::class, 'store'])->name('store');
 
-    // 4. Ganti Password Sales
-    // A. Tampilkan Halaman
-    Route::get('/password', function () {
-        return view('sales.password');
-    })->name('password');
-
-    // B. PROSES SIMPAN PASSWORD (INI YANG SEBELUMNYA HILANG)
-    // Pastikan menggunakan method 'updatePassword' dari ProfileController
-    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
-
+    Route::get('/password', [PasswordController::class, 'edit'])->name('password');
+    Route::put('/password', [PasswordController::class, 'update'])->name('password.update');
 });
