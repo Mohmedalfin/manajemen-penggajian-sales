@@ -4,12 +4,11 @@
 
 <h1 class="text-3xl font-bold text-gray-800 mb-8">Statistik Bulan : <span class="font-bold text-blue-500"> {{ now()->translatedFormat('F') }}</span></h1>
 
+{{-- KARTU STATISTIK --}}
 <div class="grid grid-cols-3 gap-4 mb-10">
     <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
         <div class="flex justify-between items-start mb-2">
-            {{-- PERBAIKAN: Ubah Padding jadi Pending --}}
             <p class="text-gray-500 text-md font-medium">Transaksi <span class='text-yellow-500'> Pending</span></p>
-            
             <div class="p-1 bg-blue-100 rounded-lg text-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
                     <path d="M18 21a8 8 0 0 0-16 0"/>
@@ -34,6 +33,7 @@
         </div>
         <div class="text-4xl font-bold text-gray-800">{{ $totalApproved }} <span class="text-xl font-medium text-gray-500">Transaksi</span></div>
     </div>
+
     <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
         <div class="flex justify-between items-start mb-2">
             <p class="text-gray-500 text-md font-medium">Transaksi <span class='text-red-500'> Rejected</span></p>
@@ -49,6 +49,7 @@
     </div>
 </div>
 
+{{-- TABEL TRANSAKSI --}}
 <div class="bg-white p-6 rounded-2xl shadow-lg">
     <div class="flex justify-between items-center mb-6">
         <div>
@@ -56,6 +57,7 @@
             <p class="text-sm text-green-600">Anggota aktif</p> 
         </div>
         
+        {{-- SORTING DROPDOWN --}}
         <div class="relative">
             <button id="sortButton" class="w-56 bg-white border border-gray-300 rounded-lg px-4 py-2 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <span class="text-xs text-gray-600">Sort by : <span id="sortLabel" class="font-bold text-gray-800">Newest</span></span>
@@ -118,23 +120,22 @@
                     </td>
 
                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                        @if($item->bukti_foto)
+                        @if(!empty($item->bukti_transaksi))
                             <button type="button" 
-                                    onclick="showImage('{{ asset('storage/' . $item->bukti_foto) }}')"
-                                    class="text-indigo-500 hover:text-indigo-700 transition focus:outline-none" 
+                                    onclick="showImage('{{ Storage::url($item->bukti_transaksi) }}')"
+                                    class="text-indigo-600 hover:text-indigo-900 transition focus:outline-none flex items-center gap-2 justify-center mx-auto" 
                                     title="Lihat Bukti Foto">
-                                <div class="flex items-center gap-2 justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm1 4a2 2 0 114 0 2 2 0 01-4 0zm9 8H6l3-4 2 3 3-4 3 5z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span class="text-sm">Lihat</span>
-                                </div> 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm1 4a2 2 0 114 0 2 2 0 01-4 0zm9 8H6l3-4 2 3 3-4 3 5z" clip-rule="evenodd" />
+                                </svg>
+                                <span class="text-sm font-semibold">Lihat</span>
                             </button>
                         @else
                             <span class="text-gray-400 text-xs italic">Tidak ada foto</span>
                         @endif
                     </td>
 
+                    {{-- FORM UPDATE STATUS --}}
                     <td class="px-6 py-4 whitespace-nowrap">
                         <form action="{{ route('admin.transaksi.update-status', $item->id) }}" method="POST">
                             @csrf
@@ -162,83 +163,33 @@
         </table>
     </div>
     
-    {{-- Footer Pagination --}}
     <div class="mt-4 text-sm text-gray-500">
         Showing data Transaksi
     </div>
 </div>
 
+{{-- MODAL PREVIEW FOTO (DITAMBAHKAN DI SINI) --}}
 {{-- MODAL PREVIEW FOTO --}}
-<div id="imageModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    
-    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeImageModal()"></div>
-
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
-            
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-between items-center">
-                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                    Bukti Foto
-                </h3>
-                <button type="button" onclick="closeImageModal()" class="text-gray-400 hover:text-gray-500 focus:outline-none">
-                    <span class="sr-only">Close</span>
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex justify-center bg-gray-100">
-                <img id="modalImageSrc" src="" alt="Bukti Transaksi" class="max-h-[70vh] rounded-md shadow-sm object-contain">
-            </div>
-            
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" onclick="closeImageModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                    Tutup
-                </button>
-            </div>
+<div id="imageModal" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black bg-opacity-75 p-4" onclick="closeImageModal()">
+    <div class="relative max-w-4xl w-full flex flex-col items-center" onclick="event.stopPropagation()">
+        {{-- Tombol Close di Pojok Kanan Atas --}}
+        <button onclick="closeImageModal()" class="absolute -top-10 right-0 text-white hover:text-gray-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        
+        {{-- Wadah Gambar --}}
+        <div class="bg-white p-2 rounded-lg shadow-2xl">
+            <img id="modalImageSrc" src="" alt="Bukti Transaksi" class="max-h-[85vh] w-auto rounded object-contain">
         </div>
+        
+        <p class="text-white mt-4 font-semibold shadow-sm">Bukti Transaksi</p>
     </div>
 </div>
 
 <script>
-    // Fungsi untuk membuka Modal dan set URL gambar
-    function showImage(imageUrl) {
-        const modal = document.getElementById('imageModal');
-        const imgElement = document.getElementById('modalImageSrc');
-        
-        // Set source gambar
-        imgElement.src = imageUrl;
-        
-        // Tampilkan modal (hapus class hidden)
-        modal.classList.remove('hidden');
-    }
-
-    // Fungsi untuk menutup Modal
-    function closeImageModal() {
-        const modal = document.getElementById('imageModal');
-        const imgElement = document.getElementById('modalImageSrc');
-        
-        // Sembunyikan modal
-        modal.classList.add('hidden');
-        
-        // Bersihkan source gambar agar tidak flickering saat dibuka lagi
-        setTimeout(() => {
-            imgElement.src = '';
-        }, 300);
-    }
-
-    // Close modal on ESC key press
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            closeImageModal();
-        }
-    });
-</script>
-
-<script>
+    // FUNGSI SORTING
     function selectSort(value) {
         document.getElementById('sortLabel').innerText = value;
         toggleSortDropdown();
@@ -256,6 +207,33 @@
             icon.classList.remove('rotate-180');
         }
     }
+
+    // FUNGSI MODAL GAMBAR (DITAMBAHKAN DI SINI)
+    function showImage(imageUrl) {
+        const modal = document.getElementById('imageModal');
+        const imgElement = document.getElementById('modalImageSrc');
+        
+        imgElement.src = imageUrl;
+        modal.classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        const imgElement = document.getElementById('modalImageSrc');
+        
+        modal.classList.add('hidden');
+        // Bersihkan src agar tidak flashing saat dibuka lagi
+        setTimeout(() => {
+            imgElement.src = '';
+        }, 300);
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeImageModal();
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         const button = document.getElementById('sortButton');
