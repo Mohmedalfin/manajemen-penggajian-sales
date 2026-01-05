@@ -47,7 +47,6 @@
                         </button>
                     </form>
                 @else
-                    {{-- Spacer kosong agar layout tidak berantakan jika search hilang --}}
                     <div class="w-full mr-8"></div>
                 @endif
 
@@ -78,7 +77,7 @@
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
                     </div>
-                </div>
+            </div>
         </header>
         @endif
 

@@ -133,41 +133,22 @@
 
 
 <div class="bg-white p-6 rounded-2xl shadow-lg">
-
-   
-
     <div class="flex justify-between items-center mb-6">
-
         <div>
-
             <h2 class="text-xl font-bold text-gray-800">Semua Sales</h2>
-
             <p class="text-sm text-green-600">Rank sales dengan penjualan terbesar</p>
-
         </div>
-
     </div>
 
-
-
     <div class="overflow-x-auto">
-
         <table class="min-w-full divide-y divide-gray-200">
-
             <thead class="bg-gray-50">
-
                 <tr>
-
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
-
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Terjual</th>
-
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Penjualan</th>
-
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Komisi</th>
-
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Gaji</th>
-
                 </tr>
 
             </thead>
@@ -218,16 +199,12 @@
 
                         </td>
 
-
-
                         <td class="px-6 py-4 whitespace-nowrap">
 
                             @if($index == 0)
 
                                 <span class="px-3 py-1 inline-flex text-xs font-bold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-200">
-
                                     👑 Top Sales
-
                                 </span>
 
                             @else

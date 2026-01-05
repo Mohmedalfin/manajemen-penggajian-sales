@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Sales - Clarity</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 font-sans text-gray-800">
 
@@ -63,77 +63,117 @@
             @endif
         </div>
 
-{{-- === BAGIAN 2: HEADER UTAMA (Desktop) === --}}
-        @if (!request()->routeIs('sales.profil') && !request()->routeIs('sales.password'))
+        <header class="flex flex-col md:flex-row md:justify-between md:items-center mb-10">
+    
+    {{-- 1. Spacer Kiri (Agar layout seimbang) --}}
+    <div class="hidden md:block w-0 h-10"></div> 
+
+
+    {{-- 2. LOGIKA TENGAH: Search Bar VS Kalimat Judul --}}
+    @if(request()->routeIs('sales.dashboard'))
         
-            <header class="flex flex-col md:flex-row md:justify-between md:items-center mb-10">
-                
-                {{-- PERBAIKAN 1: Spacer Kiri dibuat w-0 (Sama seperti Admin) --}}
-                <div class="hidden md:block w-0 h-10"></div> 
-                
-                {{-- PERBAIKAN 2: Search Bar --}}
-                {{-- Hapus 'max-w-lg' dan 'mx-auto' --}}
-                {{-- Tambah 'md:mr-8' agar ada jarak dengan profil kanan --}}
-                <div class="relative w-full md:mr-8 mb-4 md:mb-0"> 
-                    <input type="text" placeholder="Telusuri" 
-                        class="w-full p-3 pl-4 
-                               border-2 border-blue-400  
-                               rounded-full 
-                               focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                               text-gray-700 placeholder-blue-500 font-medium 
-                               shadow-md outline-none bg-white">
-                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-blue-500">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </div>
-                </div>
-                
-                {{-- PROFIL AVATAR (Desktop) --}}
-                <div class="relative hidden md:block">
-                    <button id="desktopProfileBtn" class="w-10 h-10 rounded-full overflow-hidden focus:outline-none ring-2 ring-transparent hover:ring-blue-500 transition duration-150">
-                        <img src="{{ asset('images/Profil.png') }}" alt="Foto Profil" class="w-full h-full object-cover">
-                    </button>
-
-                    {{-- Dropdown Desktop --}}
-                    <div id="desktopProfileDropdown" class="absolute right-0 mt-3 w-64 bg-white rounded-lg shadow-xl py-3 border border-gray-200 hidden transition duration-200 z-50">
-                        <div class="px-4 pb-3 border-b border-gray-200">
-                            @php
-                                $user = auth()->user();
-                                $userName = $user->sales ? $user->sales->nama_lengkap : $user->username;
-                                $userEmail = $user->sales ? $user->sales->email : '-'; 
-                            @endphp
-                            <p class="text-sm font-semibold text-gray-800 truncate">{{ $userName }}</p>
-                            <p class="text-xs text-gray-500 truncate">{{ $userEmail }}</p>
-                        </div>
-
-                        <a href="{{ route('sales.profil') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition duration-150">
-  
-                        <a href="{{ route('logout') }}" 
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                        class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition duration-150">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                            Logout
-                        </a>
-                    </div>
-                </div>
-            </header>
-
-        @endif
-        
-        {{-- Form Logout Global --}}
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
+        {{-- A. JIKA DI DASHBOARD: Tampilkan Search Form --}}
+        <form id="searchForm" method="GET" action="{{ route('sales.dashboard') }}" class="relative w-full md:mr-8 mb-4 md:mb-0">
+            <input 
+                type="text" 
+                name="search" 
+                id="searchInput"
+                placeholder="Cari transaksi, pelanggan, atau produk..." 
+                value="{{ request('search') }}"
+                class="w-full p-3 pl-4 
+                    border-2 border-blue-400  
+                    rounded-full 
+                    focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                    text-gray-700 placeholder-blue-500 font-medium 
+                    shadow-md outline-none bg-white"
+                autocomplete="off"
+            >
+            <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-500 hover:text-blue-700 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </button>
         </form>
 
-        {{-- CONTENT UTAMA --}}
-        @yield('content')
+    @else
         
-    </main>
+        {{-- B. JIKA BUKAN DASHBOARD: Tampilkan Kalimat / Judul Halaman --}}
+        <div class="w-full md:mr-8 mb-4 md:mb-0">
+            
+            {{-- Logika Judul Dinamis --}}
+            <h1 class="text-2xl font-bold text-gray-800">
+                @if(request()->routeIs('sales.profil'))
+                    Profil Saya
+                @elseif(request()->routeIs('sales.password'))
+                    Ubah Password
+                @else
+                    Halaman Sales
+                @endif
+            </h1>
+            <p class="text-sm text-gray-500">
+                @if(request()->routeIs('sales.profil'))
+                    Kelola informasi akun dan data diri Anda.
+                @elseif(request()->routeIs('sales.password'))
+                    Amankan akun Anda dengan password baru.
+                @else
+                    Selamat datang kembali.
+                @endif
+            </p>
+
+        </div>
+
+    @endif
+
+
+    {{-- 3. PROFIL AVATAR (SELALU MUNCUL DI SEMUA HALAMAN) --}}
+    <div class="relative hidden md:block">
+        <button id="desktopProfileBtn" class="w-10 h-10 rounded-full overflow-hidden focus:outline-none ring-2 ring-transparent hover:ring-blue-500 transition duration-150">
+            <img src="{{ asset('images/Profil.png') }}" alt="Foto Profil" class="w-full h-full object-cover">
+        </button>
+
+        {{-- Dropdown Menu --}}
+        <div id="desktopProfileDropdown" class="absolute right-0 mt-3 w-64 bg-white rounded-lg shadow-xl py-3 border border-gray-200 hidden transition duration-200 z-50">
+            <div class="px-4 pb-3 border-b border-gray-200">
+                @php
+                    $user = auth()->user();
+                    $userName = $user->sales ? $user->sales->nama_lengkap : $user->username;
+                    $userEmail = $user->sales ? $user->sales->email : '-'; 
+                @endphp
+                <p class="text-sm font-semibold text-gray-800 truncate">{{ $userName }}</p>
+                <p class="text-xs text-gray-500 truncate">{{ $userEmail }}</p>
+            </div>
+
+            <a href="{{ route('sales.profil') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition duration-150">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                Profil Saya
+            </a>
+
+            <a href="{{ route('logout') }}" 
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition duration-150">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Logout
+            </a>
+        </div>
+    </div>
+
+</header>
+
+            
+            {{-- Form Logout Global --}}
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+
+            {{-- CONTENT UTAMA --}}
+            @yield('content')
+            
+        </main>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         
-        // --- 1. SETUP SIDEBAR RESPONSIVE ---
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');

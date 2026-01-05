@@ -6,7 +6,6 @@ use App\Models\TransaksiPenjualan;
 
 class DashboardSalesService
 {
-    // UBAH NAMA FUNCTION DAN TAMBAHKAN PARAMETER $salesId
     public function summaryBulananPerSales(int $bulan, int $tahun, int $salesId): array
     {
         // KITA GUNAKAN $salesId YANG DIKIRIM DARI CONTROLLER

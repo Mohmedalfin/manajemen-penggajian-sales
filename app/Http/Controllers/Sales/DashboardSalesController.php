@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Services\DashboardSalesService; 
+use App\Models\TransaksiPenjualan;
 
 class DashboardSalesController extends Controller
 {
@@ -16,21 +17,60 @@ class DashboardSalesController extends Controller
         $this->dashboardSalesService = $dashboardSalesService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $bulan = date('m');
         $tahun = date('Y');
-
-        // Pastikan ini sesuai relasi database Anda:
-        // Opsi A: Jika User ID sama dengan Sales ID
-        // $salesId = auth()->id(); 
         
-        // Opsi B: Jika Tabel User beda dengan Tabel Sales (User punya relasi ke Sales)
-        $salesId = auth()->user()->sales->id; 
+        $userSales = auth()->user()->sales;
+        $salesId   = $userSales->id; 
 
-        // Panggil Service
+        $query = TransaksiPenjualan::with(['sales', 'barang']) // Pastikan relasi 'produk' ada di Model
+                ->where('sales_id', $salesId);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            
+            $query->where(function ($q) use ($search) {
+                $q->where('kode_transaksi', 'like', "%{$search}%")
+                ->orWhere('nama_pelanggan', 'like', "%{$search}%")
+                ->orWhereHas('barang', function ($subQ) use ($search) {
+                    $subQ->where('nama_produk', 'like', "%{$search}%");
+                });
+            });
+        }
+
+        $riwayatTransaksi = $query->latest()->get();
+
+
         $summary = $this->dashboardSalesService->summaryBulananPerSales($bulan, $tahun, $salesId);
 
-        return view('sales.dashboard', compact('summary'));
+        $target    = $userSales->target_penjualan_bln; // Sesuaikan nama kolom di DB Anda
+        $gajiPokok = $userSales->gaji_pokok;
+
+        $transaksiValid = TransaksiPenjualan::where('sales_id', $salesId)
+            ->whereMonth('tanggal_transaksi', $bulan) 
+            ->whereYear('tanggal_transaksi', $tahun)
+            ->where('status_verifikasi', 'approved'); 
+
+        $realisasi   = (clone $transaksiValid)->sum('harga_total');
+        $totalKomisi = (clone $transaksiValid)->sum('komisi_penjualan');
+
+        $persentase = $target > 0 ? ($realisasi / $target) * 100 : 0;
+        $totalGaji  = $gajiPokok + $totalKomisi;
+
+        return view('sales.dashboard', compact(
+            'summary', 
+            'riwayatTransaksi',
+            'target', 
+            'realisasi', 
+            'persentase', 
+            'gajiPokok', 
+            'totalKomisi', 
+            'totalGaji'
+        ));
     }
+
+    
+    
 }
