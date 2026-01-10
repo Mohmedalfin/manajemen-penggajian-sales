@@ -95,7 +95,7 @@ Ikuti langkah-langkah berikut agar project dapat berjalan di komputer Anda.
 6.  **Migrasi Database & Seeder**
     Jalankan perintah ini untuk membuat tabel dan mengisi data akun Admin default:
     ```bash
-    php artisan migrate --seed
+    php artisan db:seed --class=Userseed
     ```
 
 7.  **Setup Storage Link**
@@ -127,8 +127,8 @@ Gunakan akun ini untuk login pertama kali setelah menjalankan seeder:
 
 | Role | Username / Email | Password |
 | :--- | :--- | :--- |
-| **Admin** | `admin@example.com` | `password` |
-| **Sales** | `sales1` | `password` |
+| **Admin** | `admin` | `password` |
+| Login **Sales** mengikuti sales yang dibuat |
 
 ---
 
