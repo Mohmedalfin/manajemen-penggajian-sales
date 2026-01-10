@@ -52,7 +52,7 @@ Ikuti langkah-langkah berikut agar project dapat berjalan di komputer Anda.
 1.  **Clone Repository**
     Download source code project ini:
     ```bash
-    git clone [https://github.com/username-anda/nama-repo-anda.git](https://github.com/username-anda/nama-repo-anda.git)
+    git clone https://github.com/Mohmedalfin/manajemen-gaji-sales.git
     cd nama-repo-anda
     ```
 
